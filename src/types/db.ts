@@ -9,6 +9,13 @@ export interface Profile {
   tags: string[]; // AI generated tags e.g. "Thirst Trap", "Corporate Shill"
 }
 
+export interface SimpleProfile {
+  handle: string;
+  name: string;
+  bio: string;
+  avatarUrl?: string;
+}
+
 export interface Relationship {
   source: string; // handle
   target: string; // handle
