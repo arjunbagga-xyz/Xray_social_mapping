@@ -52,6 +52,15 @@ function App() {
             {status}
           </div>
         )}
+
+        <div className="pt-4 border-t border-gray-200">
+             <button
+                onClick={() => browser.tabs.create({ url: 'dashboard.html' })}
+                className="w-full bg-white text-pink-600 border-2 border-pink-500 font-bold py-2 px-4 rounded-full hover:bg-pink-50 transition-all shadow-sm"
+             >
+                Open Investigation Board
+             </button>
+        </div>
       </div>
 
       <div className="mt-auto text-xs text-gray-400 text-center">
