@@ -4,7 +4,7 @@ import cytoscape from 'cytoscape';
 import { useStore } from '../store';
 
 export default function Graph() {
-  const { profiles, relationships, selectNode } = useStore();
+  const { profiles, relationships, selectNode, selectEdge } = useStore();
 
   const elements = useMemo(() => {
     const nodes = profiles.map((p) => ({
@@ -68,7 +68,15 @@ export default function Graph() {
       },
     },
     {
-        selector: ':selected',
+        selector: 'edge:selected',
+        style: {
+            'width': 6,
+            'line-color': '#be185d', // Darker pink highlight
+            'target-arrow-color': '#be185d',
+        }
+    },
+    {
+        selector: 'node:selected',
         style: {
             'border-width': 4,
             'border-color': '#be185d', // Darker pink
@@ -88,14 +96,14 @@ export default function Graph() {
           selectNode(node.id());
         });
 
-        cy.on('tap', 'edge', () => {
-           // Optional: select edge
-           // const edge = event.target;
+        cy.on('tap', 'edge', (event: cytoscape.EventObject) => {
+           const edge = event.target;
+           selectEdge(edge.id());
         });
 
         cy.on('tap', (event: cytoscape.EventObject) => {
              if(event.target === cy) {
-                 selectNode(null);
+                 selectNode(null); // This clears both node and edge selection via the store logic
              }
         })
       }}

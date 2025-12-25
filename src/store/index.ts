@@ -4,17 +4,21 @@ import { Profile, Relationship } from '../types/db';
 
 interface GraphState {
   selectedNodeId: string | null;
+  selectedEdgeId: string | null;
   profiles: Profile[];
   relationships: Relationship[];
   selectNode: (id: string | null) => void;
+  selectEdge: (id: string | null) => void;
   loadGraphData: () => Promise<void>;
 }
 
 export const useStore = create<GraphState>((set) => ({
   selectedNodeId: null,
+  selectedEdgeId: null,
   profiles: [],
   relationships: [],
-  selectNode: (id) => set({ selectedNodeId: id }),
+  selectNode: (id) => set({ selectedNodeId: id, selectedEdgeId: null }),
+  selectEdge: (id) => set({ selectedEdgeId: id, selectedNodeId: null }),
   loadGraphData: async () => {
     try {
       const db = await dbPromise;

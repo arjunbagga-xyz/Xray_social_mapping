@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import browser from 'webextension-polyfill';
+import browser from './lib/browser';
 
 function App() {
   const [handle, setHandle] = useState('');
