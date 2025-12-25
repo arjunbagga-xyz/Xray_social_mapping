@@ -36,7 +36,7 @@ export default function Dossier() {
     return (
       <div className="h-full flex flex-col">
         <div className="p-6 border-b border-pink-100 bg-pink-50">
-          <h2 className="text-xl font-extrabold text-pink-600 font-mono uppercase tracking-widest">
+          <h2 className="text-xl font-extrabold text-pink-600 font-burn-book uppercase tracking-widest">
             Burn Book Entry
           </h2>
         </div>
@@ -114,7 +114,7 @@ export default function Dossier() {
       return (
         <div className="h-full flex flex-col">
             <div className="p-6 border-b border-pink-100 bg-pink-50">
-                <h2 className="text-xl font-extrabold text-pink-600 font-mono uppercase tracking-widest">
+                <h2 className="text-xl font-extrabold text-pink-600 font-burn-book uppercase tracking-widest">
                     Drama Analysis
                 </h2>
             </div>
