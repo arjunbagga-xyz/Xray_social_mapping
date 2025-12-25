@@ -3,7 +3,11 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import cytoscape from 'cytoscape';
 import { useStore } from '../store';
 
-export default function Graph() {
+interface GraphProps {
+  setCyInstance?: (cy: cytoscape.Core) => void;
+}
+
+export default function Graph({ setCyInstance }: GraphProps) {
   const { profiles, relationships, selectNode, selectEdge } = useStore();
 
   const elements = useMemo(() => {
@@ -91,6 +95,9 @@ export default function Graph() {
       stylesheet={style}
       layout={{ name: 'cose', animate: true }}
       cy={(cy: cytoscape.Core) => {
+        if (setCyInstance) {
+            setCyInstance(cy);
+        }
         cy.on('tap', 'node', (event: cytoscape.EventObject) => {
           const node = event.target;
           selectNode(node.id());

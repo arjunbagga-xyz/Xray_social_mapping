@@ -1,18 +1,8 @@
-// Conditional import hack to avoid crashing in non-extension environments
-// where webextension-polyfill throws "This script should only be loaded in a browser extension."
-
-let browser: any;
-try {
-  // We can't standard import because it executes immediately
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  browser = require('webextension-polyfill');
-} catch (e) {
-  // Ignore error
-}
-
-// Check if we are in an extension context
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const isExtensionContext = typeof (globalThis as any).chrome !== 'undefined' && !!(globalThis as any).chrome.runtime && !!(globalThis as any).chrome.runtime.id;
+// Safe shim for webextension-polyfill.
+// In a real extension environment (Chrome/Firefox), `chrome` or `browser` globals exist.
+// In a development/test environment (like Playwright), they don't.
+// This wrapper avoids importing `webextension-polyfill` directly because it throws an error immediately
+// if loaded outside an extension context, which crashes the app in dev mode.
 
 // Mock implementation for development/browser environment
 const mockBrowser = {
@@ -44,7 +34,14 @@ const mockBrowser = {
   }
 };
 
-// Export safe browser object
+// Check for globals.
+// 'browser' is standard WebExtension API (Firefox, Polyfilled Chrome).
+// 'chrome' is Chromium native.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const safeBrowser: any = (isExtensionContext && browser) ? browser : mockBrowser;
+const globalBrowser = (globalThis as any).browser || (globalThis as any).chrome;
+
+// Prefer the global object if it exists (Extension Context), otherwise use Mock (Dev Context)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const safeBrowser: any = (globalBrowser && globalBrowser.runtime) ? globalBrowser : mockBrowser;
+
 export default safeBrowser;
