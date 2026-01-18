@@ -1,6 +1,6 @@
 import { Profile } from '../types/db';
 import browser from 'webextension-polyfill';
-import { scrapeInteractions } from './scraper';
+import { scrapeInteractions, scrapeProfileList } from './scraper';
 
 console.log("Mean Girls Injection Loaded");
 
@@ -9,6 +9,8 @@ console.log("Mean Girls Injection Loaded");
 browser.runtime.onMessage.addListener((message: any) => {
     if (message.type === 'CRAWL_INTERACTIONS') {
         scrapeInteractions(message.payload.source, message.payload.target);
+    } else if (message.type === 'SCRAPE_PROFILE_LIST') {
+        scrapeProfileList();
     }
 });
 
